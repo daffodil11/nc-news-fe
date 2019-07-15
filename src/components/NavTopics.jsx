@@ -4,10 +4,7 @@ import * as api from '../utils/api.js';
 
 class NavTopics extends Component {
   state = {
-    topics: [
-      {slug: 'topic1'},
-      {slug: 'topic2'}
-    ]
+    topics: []
   }
 
   render() {

@@ -13,7 +13,7 @@ class ArticleList extends Component {
   }
 
   componentDidMount() {
-    api.getArticles().then(console.log);
+    //api.getArticles().then(console.log);
   }
 }
 
