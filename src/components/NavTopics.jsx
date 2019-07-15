@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import './NavTopics.css';
 import * as api from '../utils/api.js';
 
@@ -15,6 +14,7 @@ class NavTopics extends Component {
     const { topics } = this.state;
     return (
       <nav>
+          <button className="nav-button">All</button>
           {topics.map(topic => <button className="nav-button">{topic.slug}</button>)}
       </nav>
     );

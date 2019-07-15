@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import './ArticleList.css';
+import * as api from '../utils/api.js';
 
 class ArticleList extends Component {
 
@@ -10,6 +10,10 @@ class ArticleList extends Component {
           Articles go here.        
       </div>
     );
+  }
+
+  componentDidMount() {
+    api.getArticles().then(console.log);
   }
 }
 
