@@ -1,0 +1,13 @@
+.App {
+  height: 100vh;
+  margin: 0;
+  width: 100vw;
+  padding: 0;
+  display: grid;
+  grid-template-rows: 2fr 1fr 12fr 1fr;
+}
+
+h1 {
+  width: 100%;
+  text-align: center;
+}
