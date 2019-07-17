@@ -5,6 +5,7 @@ describe('/', () => {
     cy.server();
     cy.route('GET', '/api/articles/*', 'fx:article.json').as('getArticle');
     cy.route('GET', '/api/articles/*/comments', 'fx:comments.json').as('getComments');
+    cy.route('POST', '/api/articles/*/comments', 'fx:new_comment.json').as('postComment');
     cy.visit(BASE_URL + 'mitch/1');
   });
   it('should display a loading message until the article has been retrieved', () => {
@@ -27,5 +28,11 @@ describe('/', () => {
   it('should display the comments for the article when they have been retrieved', () => {
     cy.get('[data-cy=comment-body]').should('have.length', 3);
     cy.get('[data-cy=comment-author]').should('have.length', 3);
+  });
+  it('should have a form for posting comments', () => {
+    cy.get('[data-cy=comment-form-body]').type('This article is terrible! I would rather read lorem ipsum!');
+    cy.get('[data-cy=comment-form-submit]').click();
+    cy.wait('@postComment');
+    cy.get('[data-cy=comment-body]').should('have.length', 4);
   });
 });
