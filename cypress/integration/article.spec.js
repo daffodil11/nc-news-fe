@@ -35,4 +35,13 @@ describe('/', () => {
     cy.wait('@postComment');
     cy.get('[data-cy=comment-body]').should('have.length', 4);
   });
+  it('should rescue the comment if the post fails', () => {
+    cy.route('POST', '/api/articles/*/comments', {}).as('postCommentFail');
+    cy.get('[data-cy=comment-form-body]').type('The website is pretty good, though.');
+    cy.get('[data-cy=comment-form-submit]').click();
+    cy.get('[data-cy=comment-form-body]').should('not.contain', 'website');
+    cy.wait('@postCommentFail');
+    cy.get('[data-cy=comment-form-body]').should('contain', 'website');
+    //cy.get('[data-cy=comment-form-body]').contains('terrible');
+  });
 });
