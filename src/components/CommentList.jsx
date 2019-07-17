@@ -23,6 +23,7 @@ class CommentList extends Component {
     } else if (isLoaded) {
       return (
         <div>
+          <h3>Comments</h3>
             {comments.map(comment => <Comment comment={comment}/>)}
         </div>
       );
