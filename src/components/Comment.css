@@ -1,0 +1,16 @@
+:root {
+  --nc-black: #202829;
+}
+
+.comment {
+  margin: 3px;
+  padding: 6px;
+  border-radius: 5px;
+  border: solid 1px var(--nc-black);
+}
+
+.comment-info {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
