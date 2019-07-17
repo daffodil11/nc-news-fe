@@ -4,8 +4,7 @@ import './CommentForm.css';
 
 class CommentForm extends Component {
   static propTypes = {
-    article_id: PropTypes.number.isRequired,
-    username: PropTypes.string.isRequired
+    submitForm: PropTypes.func.isRequired
   };
 
   state = {
@@ -13,12 +12,24 @@ class CommentForm extends Component {
   }
 
   render() {
+    const { comment } = this.state;
     return (
-      <form>
-        <textarea data-cy="comment-form-body" rows="5" cols="40" placeholder="Write a new comment..." />
+      <form onSubmit={this.handleSubmit}>
+        <textarea data-cy="comment-form-body" rows="5" cols="40" placeholder="Write a new comment..." value={comment} onChange={this.handleChange} />
         <button type="submit" data-cy="comment-form-submit">Post comment</button>
       </form>
     );
+  }
+
+  handleChange = (event) => {
+    this.setState({ comment: event.target.value });
+  }
+
+  handleSubmit = event => {
+    const { comment } = this.state;
+    event.preventDefault();
+    this.props.submitForm(comment).catch(err => this.setState({ comment }));
+    this.setState({ comment: '' });
   }
 }
 

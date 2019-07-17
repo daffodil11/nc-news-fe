@@ -26,15 +26,26 @@ class CommentList extends Component {
       return (
         <div>
           <h3>Comments</h3>
-          <CommentForm article_id={article_id} username="weegembump" />
+          <CommentForm submitForm={this.submitForm} />
           <div className="comments-container">
-            {comments.map(comment => <Comment comment={comment}/>)}
+            {comments.map(comment => <Comment key={comment.comment_id} comment={comment}/>)}
           </div>
         </div>
       );
     } else {
       return <div data-cy="loading-comments">Loading comments...</div>;
     }
+  }
+
+  submitForm = body => {
+    const newComment = {
+      author: 'weegembump',
+      votes: 0,
+      age: 'a few moments',
+      body
+    };
+    this.setState(state => ({ comments: [newComment, ...state.comments] }));
+    return api.postComment(this.props.article_id, 'weegembump', body);
   }
 
   componentDidMount() {

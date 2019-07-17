@@ -36,3 +36,6 @@ export const getArticleComments = article_id => {
       });
     });
 };
+export const postComment = (article_id, username, body) => {
+  return axios.post(`${BASE_URL}/articles/${article_id}/comments`, { username, body });
+}
