@@ -5,8 +5,8 @@ describe('/', () => {
     cy.server();
     cy.route('GET', '/api/topics', 'fx:topics.json').as('getTopics');
     cy.route('GET', '/api/articles', 'fx:articles.json').as('getArticles');
-    //cy.route('GET', '/api/articles?sort_by=created_at', 'fx:articles.json').as('getArticles');
     cy.route('GET', '/api/articles?sort_by=comment_count', 'fx:articles_sort_by_comments.json').as('getArticlesSortByComments');
+    cy.route('GET', '/api/articles?sort_by=comment_count&order=asc', 'fx:articles_sort_by_comments_asc.json').as('getArticlesSortByCommentsAscending');
     cy.route('GET', '/api/articles?topic=mitch', 'fx:mitch.json').as('getMitch');
     cy.route('GET', '/api/articles/*', 'fx:article.json').as('getArticle');
     cy.visit(BASE_URL);
@@ -47,9 +47,15 @@ describe('/', () => {
     cy.get('[data-cy=title]');
     cy.get('[data-cy=body]');
   });
-  it('should have an input for changing the article sorting', () => {
+  it('should have an input that changes the article sorting', () => {
     cy.get('[data-cy=sort-by]').select('Comments');
     cy.wait(['@getArticlesSortByComments']);
     cy.get('[data-cy=article-card]').first().contains('pug');
+  });
+  it('should have an input that changes the article sort order', () => {
+    cy.get('[data-cy=sort-by]').select('Comments');
+    cy.get('[data-cy=order]').select('Low to High');
+    cy.wait('@getArticlesSortByCommentsAscending');
+    cy.get('[data-cy=article-card]').first().contains('Sony');
   });
 });
