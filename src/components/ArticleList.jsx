@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './ArticleList.css';
 import * as api from '../utils/api.js';
 import ArticleCard from './ArticleCard';
+import SortControls from './SortControls';
 
 class ArticleList extends Component {
 
@@ -18,21 +19,7 @@ class ArticleList extends Component {
     if (error) return <div data-cy="error">Error: {error.msg || error.message}</div>;
     else if (isLoaded) return (
       <div>
-        <div className="sort-controls">
-          <label className="sort-control">Sort articles by: 
-          <select className="sort-control" id="sort_by" onChange={this.handleSelectChange} value={sort_by || 'created_at'} data-cy="sort-by">
-              <option value="created_at">New</option>
-              <option value="comment_count">Comments</option>
-              <option value="votes">Votes</option>
-            </select>
-          </label>
-          <label className="sort-control">Order by: 
-          <select className="sort-control" id="order" onChange={this.handleSelectChange} value={order || 'desc'} data-cy="order">
-              <option value="desc">{sort_by === 'created_at' ? 'New to Old' : 'High to Low'}</option>
-              <option value="asc">{sort_by === 'created_at' ? 'Old to New' : 'Low to High'}</option>
-            </select>
-          </label>
-        </div>
+        <SortControls handleSelectChange={this.handleSelectChange} sort_by={sort_by} order={order} />
         <div>
             {articles.map(article => <ArticleCard key={article.article_id} article={article} />)}
         </div>
