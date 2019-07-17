@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from '@reach/router';
 import './ArticleCard.css';
 
-function ArticleCard({ article: { title, article_id, topic, author, created_at, age, votes, userVotes, comment_count } }) {
+function ArticleCard({ article: { title, article_id, topic, author, age, votes, userVotes, comment_count } }) {
   return (
     <Link className="article-card" data-cy="article-card" to={`/${topic}/${article_id}`} >
       <div>
@@ -29,7 +29,6 @@ ArticleCard.propTypes = {
     topic: PropTypes.string.isRequired,
     article_id: PropTypes.number.isRequired,
     author: PropTypes.string.isRequired,
-    created_at: PropTypes.number,
     age: PropTypes.string,
     comment_count: PropTypes.number,
     votes: PropTypes.number.isRequired,
