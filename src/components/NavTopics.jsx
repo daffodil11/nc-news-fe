@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './NavTopics.css';
 import * as api from '../utils/api.js';
+import { Link } from '@reach/router';
 
 class NavTopics extends Component {
   state = {
@@ -11,8 +12,10 @@ class NavTopics extends Component {
     const { topics } = this.state;
     return (
       <nav>
-          <button className="nav-button">All</button>
-          {topics.map(topic => <button className="nav-button">{topic.slug}</button>)}
+        <Link className="nav-button" to="/">all</Link>
+            {topics.map(({ slug, description }) => (
+              <Link to={'/' + slug} title={description} className="nav-button" data-cy="topic-button" key={slug}>{slug}</Link>
+                ))}
       </nav>
     );
   }

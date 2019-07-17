@@ -11,3 +11,12 @@ h1 {
   width: 100%;
   text-align: center;
 }
+
+h1::first-letter {
+  color: rgba(186, 31, 49, 1);
+}
+
+.nc-news-body {
+  margin: 5px;
+  overflow-y: scroll;
+}

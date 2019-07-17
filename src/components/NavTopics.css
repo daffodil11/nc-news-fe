@@ -4,14 +4,21 @@ nav {
   justify-content: space-evenly;
 }
 
-button.nav-button {
+.nav-button {
   background: white;
   color: rgba(32, 40, 41, 1);
   border: 1px solid black;
   border-radius: 5px;
+  padding: 8px 5px;
 }
 
-button.nav-button:hover {
+.nav-button:hover {
   background: rgba(32, 40, 41, 1);
   color: white;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
