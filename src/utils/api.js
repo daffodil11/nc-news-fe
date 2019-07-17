@@ -11,9 +11,9 @@ export const getTopics = () => {
   return axios.get(BASE_URL + '/topics');
 };
 
-export const getArticles = (topic, sort_by) => {
+export const getArticles = (topic, sort_by, order) => {
   return axios.get(`${BASE_URL}/articles`, {
-    params: { topic, sort_by }
+    params: { topic, sort_by, order }
   }).then(({ data: { articles } } ) => {
     return articles.map(article => {
       const age = getAge(article.created_at);

@@ -49,6 +49,7 @@ describe('/', () => {
   });
   it('should have an input for changing the article sorting', () => {
     cy.get('[data-cy=sort-by]').select('Comments');
-    cy.get('[data-cy=article-card]').then(articleCards => articleCards[0]).contains('pug');
+    cy.wait(['@getArticlesSortByComments']);
+    cy.get('[data-cy=article-card]').first().contains('pug');
   });
 });
