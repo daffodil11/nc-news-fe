@@ -6,8 +6,8 @@ import './ArticleCard.css';
 
 function ArticleCard({ article: { title, article_id, topic, author, age, votes, userVotes, comment_count } }) {
   return (
-      <div className="article-card" >
-        <Link data-cy="article-card" to={`/${topic}/${article_id}`} >
+      <div className="article-card" data-cy="article-card" >
+        <Link to={`/${topic}/${article_id}`} >
           <div>
             <h3 className="article-title" data-cy="title">{title}</h3>
             <div className="article-info">

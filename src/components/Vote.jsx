@@ -7,8 +7,9 @@ function Vote({ section, id, votes }) {
   const [voteChange, setVoteChange] = useState(0);
 
   const handleVoteChange = change => {
-    setVoteChange(voteChange + change);
-    api.sendVote(section, id, change);
+    const currVoteChange = voteChange;
+    setVoteChange(currVoteChange + change);
+    api.sendVote(section, id, change).catch(err => setVoteChange(currVoteChange));
   };
 
   return (
