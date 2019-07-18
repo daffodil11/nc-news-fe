@@ -9,6 +9,12 @@ describe('/', () => {
     cy.route('GET', '/api/articles?sort_by=comment_count&order=asc', 'fx:articles_sort_by_comments_asc.json').as('getArticlesSortByCommentsAscending');
     cy.route('GET', '/api/articles?topic=mitch', 'fx:mitch.json').as('getMitch');
     cy.route('GET', '/api/articles/*', 'fx:article.json').as('getArticle');
+    cy.route({
+      method: 'GET',
+      url: '/api/articles/1001',
+      status: 404,
+      response: {}
+    }).as('getNonExistentArticle');
     cy.visit(BASE_URL);
   });
   it('should have a heading', () => {
@@ -57,5 +63,10 @@ describe('/', () => {
     cy.get('[data-cy=order]').select('Low to High');
     cy.wait('@getArticlesSortByCommentsAscending');
     cy.get('[data-cy=article-card]').first().contains('Sony');
+  });
+  it.only('should go to an error page on any non-existent path', () => {
+    cy.visit(BASE_URL + 'mitch/1001');
+    cy.url().should('equal', BASE_URL+'error');
+    cy.get('[data-cy=error-message]');
   });
 });
