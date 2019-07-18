@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './Footer.css';
 
 function Footer() {
   return (
     <footer>
-        Here hare here
+      <p>Like this website? Check out the <a href="https://github.com/daffodil11/nc-news-fe" title="Source code on GitHub">source code</a>!</p>
     </footer>
   );
 }
