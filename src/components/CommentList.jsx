@@ -19,16 +19,15 @@ class CommentList extends Component {
 
   render() {
     const { error, isLoaded, comments } = this.state;
-    const { article_id } = this.props;
     if (error) {
       return <div data-cy="comments-error">Error displaying comments: {error.msg || error.message}</div>;
     } else if (isLoaded) {
       return (
         <div>
           <h3>Comments</h3>
-          <CommentForm submitForm={this.submitForm} />
+          <CommentForm submitForm={this.submitForm} swapInComment={this.swapInComment} reverseOptimisticRender={this.reverseOptimisticRender} />
           <div className="comments-container">
-            {comments.map(comment => <Comment key={comment.comment_id} comment={comment}/>)}
+            {comments.map(comment => <Comment key={comment.comment_id || 'new-comment'} comment={comment}/>)}
           </div>
         </div>
       );
@@ -46,6 +45,21 @@ class CommentList extends Component {
     };
     this.setState(state => ({ comments: [newComment, ...state.comments] }));
     return api.postComment(this.props.article_id, 'weegembump', body);
+  }
+
+  swapInComment = comment => {
+    this.setState(state => {
+      const restOfComments = state.comments.filter(comment => comment.comment_id);
+      const newComment = { ...comment, age: 'a few moments' };
+      return { comments: [newComment, ...restOfComments] };
+    });
+  }
+
+  reverseOptimisticRender = () => {
+    this.setState(state => {
+      const restOfComments = state.comments.filter(comment => comment.comment_id);
+      return { comments: restOfComments };
+    });
   }
 
   componentDidMount() {

@@ -4,19 +4,22 @@ import './CommentForm.css';
 
 class CommentForm extends Component {
   static propTypes = {
-    submitForm: PropTypes.func.isRequired
+    submitForm: PropTypes.func.isRequired,
+    swapInComment: PropTypes.func.isRequired,
+    reverseOptimisticRender: PropTypes.func.isRequired
   };
 
   state = {
-    comment: ''
+    comment: '',
+    submitDisabled: false
   }
 
   render() {
-    const { comment } = this.state;
+    const { comment, submitDisabled } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
-        <textarea data-cy="comment-form-body" rows="5" cols="40" placeholder="Write a new comment..." value={comment} onChange={this.handleChange} />
-        <button type="submit" data-cy="comment-form-submit">Post comment</button>
+        <textarea data-cy="comment-form-body" rows="5" cols="40" placeholder="Write a new comment..." value={comment} onChange={this.handleChange} disabled={submitDisabled} />
+        <button type="submit" disabled={submitDisabled} data-cy="comment-form-submit">Post comment</button>
       </form>
     );
   }
@@ -27,9 +30,18 @@ class CommentForm extends Component {
 
   handleSubmit = event => {
     const { comment } = this.state;
+    const { swapInComment, reverseOptimisticRender } = this.props;
     event.preventDefault();
-    this.props.submitForm(comment).catch(err => this.setState({ comment }));
-    this.setState({ comment: '' });
+    this.setState({ comment: '', submitDisabled: true });
+    this.props.submitForm(comment)
+      .then(({ comment }) => {
+        this.setState({ submitDisabled: false });
+        swapInComment(comment);
+      })
+      .catch(err => {
+        this.setState({ comment, submitDisabled: false });
+        reverseOptimisticRender();
+      });
   }
 }
 

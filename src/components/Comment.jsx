@@ -4,7 +4,7 @@ import './Comment.css';
 
 function Comment({ comment: { comment_id, author, votes, age, body } }) {
   return (
-    <div className="comment" data-cy="comment">
+    <div id={comment_id || "new-comment"} className="comment" data-cy="comment">
       <div>
         <div className="comment-info">
           <span className="author" data-cy="comment-author">{author}</span>

@@ -6,7 +6,12 @@ describe('/', () => {
     cy.route('GET', '/api/topics', 'fx:topics.json').as('getTopics');
     cy.route('GET', '/api/articles/*', 'fx:article.json').as('getArticle');
     cy.route('GET', '/api/articles/*/comments', 'fx:comments.json').as('getComments');
-    cy.route('POST', '/api/articles/*/comments', 'fx:new_comment.json').as('postComment');
+    cy.route({
+      method: 'POST', 
+      url: '/api/articles/*/comments',
+      response: 'fx:new_comment.json',
+      delay: 750
+    }).as('postComment');
     cy.visit(BASE_URL + 'mitch/1');
   });
   it('should display a loading message until the article has been retrieved', () => {
@@ -50,5 +55,12 @@ describe('/', () => {
     cy.wait('@postCommentFail');
     cy.get('[data-cy=comment-form-body]').should('contain', 'website');
     cy.get('[data-cy=comment-body]').should('not.contain', 'website');
+  });
+  it('should prevent posting another comment until the first one has resolved', () => {
+    cy.get('[data-cy=comment-form-body]').type('This article is terrible! I would rather read lorem ipsum!');
+    cy.get('[data-cy=comment-form-submit]').click();
+    cy.get('[data-cy=comment-form-submit]').should('be.disabled');
+    cy.wait('@postComment');
+    cy.get('[data-cy=comment-form-submit]').should('not.be.disabled');
   });
 });
