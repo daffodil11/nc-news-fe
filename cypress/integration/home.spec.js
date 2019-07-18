@@ -10,6 +10,12 @@ describe('/', () => {
     cy.route('GET', '/api/articles?topic=mitch', 'fx:mitch.json').as('getMitch');
     cy.route('GET', '/api/articles/*', 'fx:article.json').as('getArticle');
     cy.route({
+      method: 'PATCH', 
+      url: '/api/articles/*', 
+      response: 'fx:article.json',
+      delay: 500
+    }).as('voteOnArticle');
+    cy.route({
       method: 'GET',
       url: '/api/articles/1001',
       status: 404,
@@ -64,9 +70,17 @@ describe('/', () => {
     cy.wait('@getArticlesSortByCommentsAscending');
     cy.get('[data-cy=article-card]').first().contains('Sony');
   });
-  it.only('should go to an error page on any non-existent path', () => {
+  it('should go to an error page on any non-existent path', () => {
     cy.visit(BASE_URL + 'mitch/1001');
     cy.url().should('equal', BASE_URL+'error');
     cy.get('[data-cy=error-message]');
+  });
+  it.only('should allow the user to vote once on each article', () => {
+    cy.get('[data-cy=vote]');
+    cy.get('[data-cy=votes]').contains(100);
+    cy.get('[data-cy=upvote]').first().click();
+    cy.get('[data-cy=votes]').contains(101);
+    cy.get('[data-cy=upvote]').first().click({ force: true });
+    cy.get('[data-cy=votes]').contains(101);
   });
 });
