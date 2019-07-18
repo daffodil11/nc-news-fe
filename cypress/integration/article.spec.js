@@ -3,6 +3,7 @@ const BASE_URL = 'http://localhost:3000/';
 describe('/', () => {
   beforeEach(() => {
     cy.server();
+    cy.route('GET', '/api/topics', 'fx:topics.json').as('getTopics');
     cy.route('GET', '/api/articles/*', 'fx:article.json').as('getArticle');
     cy.route('GET', '/api/articles/*/comments', 'fx:comments.json').as('getComments');
     cy.route('POST', '/api/articles/*/comments', 'fx:new_comment.json').as('postComment');
@@ -36,12 +37,18 @@ describe('/', () => {
     cy.get('[data-cy=comment-body]').should('have.length', 4);
   });
   it('should rescue the comment if the post fails', () => {
-    cy.route('POST', '/api/articles/*/comments', {}).as('postCommentFail');
+    cy.route({
+      method: 'POST',
+      url: '/api/articles/*/comments',
+      status: 400,
+      response: {},
+      delay: 750
+    }).as('postCommentFail');
     cy.get('[data-cy=comment-form-body]').type('The website is pretty good, though.');
     cy.get('[data-cy=comment-form-submit]').click();
     cy.get('[data-cy=comment-form-body]').should('not.contain', 'website');
     cy.wait('@postCommentFail');
     cy.get('[data-cy=comment-form-body]').should('contain', 'website');
-    //cy.get('[data-cy=comment-form-body]').contains('terrible');
+    cy.get('[data-cy=comment-body]').should('not.contain', 'website');
   });
 });
