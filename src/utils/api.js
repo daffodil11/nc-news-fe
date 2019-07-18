@@ -38,12 +38,8 @@ export const getArticleComments = article_id => {
 };
 export const postComment = (article_id, username, body) => {
   return axios.post(`${BASE_URL}/articles/${article_id}/comments`, { username, body }).then(response => response.data);
-    //.then(response => {
-      //if (response.status !== 201) {
-        //console.log(response);
-        //Promise.reject();
-      //} else {
-        //return response.data;
-      //}
-    //});
 }
+
+export const sendVote = (section, id, vote) => {
+  return axios.patch(`${BASE_URL}/${section}/${id}`, { inc_votes: vote }).then(response => response.data);
+};

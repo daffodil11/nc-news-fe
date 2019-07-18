@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './ArticleList.css';
+import { navigate } from '@reach/router';
 import * as api from '../utils/api.js';
 import ArticleCard from './ArticleCard';
 import SortControls from './SortControls';
@@ -51,8 +52,13 @@ class ArticleList extends Component {
     api.getArticles(this.props.topic, sort_by, order).then(articles => {
       this.setState({ articles, isLoaded: true });
     })
-    .catch(error => {
-      this.setState({ error });
+    .catch(err => {
+      navigate('/error', {
+        replace: true,
+        state: {
+          msg: err.msg || err.message
+        }
+      });
     });
   }
 }

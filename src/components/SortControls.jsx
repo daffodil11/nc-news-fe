@@ -24,8 +24,8 @@ function SortControls({ handleSelectChange, sort_by, order }) {
 
 SortControls.propTypes = {
   handleSelectChange: PropTypes.func.isRequired,
-  sort_by: PropTypes.string.isRequired,
-  order: PropTypes.string.isRequired
+  sort_by: PropTypes.string,
+  order: PropTypes.string
 };
 
 export default SortControls;

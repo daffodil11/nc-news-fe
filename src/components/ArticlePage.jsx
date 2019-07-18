@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './ArticlePage.css';
 import * as api from '../utils/api';
 import CommentList from './CommentList';
+import { navigate } from '@reach/router';
 
 class ArticlePage extends Component {
 
@@ -35,7 +36,14 @@ class ArticlePage extends Component {
         isLoaded: true,
         article
       }))
-      .catch(error => this.setState({ error }));
+      .catch(err => {
+        navigate('/error', {
+          replace: true,
+          state: {
+            msg: err.msg || err.message
+          }
+        });
+      });
   }
 }
 

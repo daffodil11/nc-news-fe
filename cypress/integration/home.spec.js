@@ -9,6 +9,18 @@ describe('/', () => {
     cy.route('GET', '/api/articles?sort_by=comment_count&order=asc', 'fx:articles_sort_by_comments_asc.json').as('getArticlesSortByCommentsAscending');
     cy.route('GET', '/api/articles?topic=mitch', 'fx:mitch.json').as('getMitch');
     cy.route('GET', '/api/articles/*', 'fx:article.json').as('getArticle');
+    cy.route({
+      method: 'PATCH', 
+      url: '/api/articles/1', 
+      response: 'fx:article.json',
+      delay: 500
+    }).as('voteOnArticle');
+    cy.route({
+      method: 'GET',
+      url: '/api/articles/1001',
+      status: 404,
+      response: {}
+    }).as('getNonExistentArticle');
     cy.visit(BASE_URL);
   });
   it('should have a heading', () => {
@@ -31,7 +43,7 @@ describe('/', () => {
     cy.get('[data-cy=loading]');
     cy.route('GET', '/api/articles?topic=trump', {}).as('getBadTopic');
     cy.visit(BASE_URL + 'trump');
-    cy.get('[data-cy=error]');
+    cy.get('[data-cy=error-message]');
   });
   it('should have article cards', () => {
     cy.get('[data-cy=article-card]').should('have.length', 10);
@@ -43,7 +55,7 @@ describe('/', () => {
   });
   it('should have article cards that link through to the article', () => {
     cy.wait(['@getTopics', '@getArticles']);
-    cy.get('[data-cy=article-card]').then(arr => arr[0]).click({ force: true });
+    cy.get('[data-cy=article-card] a').first().click({ force: true });
     cy.get('[data-cy=title]');
     cy.get('[data-cy=body]');
   });
@@ -57,5 +69,33 @@ describe('/', () => {
     cy.get('[data-cy=order]').select('Low to High');
     cy.wait('@getArticlesSortByCommentsAscending');
     cy.get('[data-cy=article-card]').first().contains('Sony');
+  });
+  it('should go to an error page on any non-existent path', () => {
+    cy.visit(BASE_URL + 'mitch/1001');
+    cy.url().should('equal', BASE_URL+'error');
+    cy.get('[data-cy=error-message]');
+  });
+  it('should allow the user to vote once on each article', () => {
+    cy.get('[data-cy=vote]');
+    cy.get('[data-cy=votes]').first().contains(100);
+    cy.get('[data-cy=upvote]').first().click();
+    cy.get('[data-cy=votes]').first().contains(101);
+    cy.get('[data-cy=upvote]').first().click({ force: true });
+    cy.get('[data-cy=votes]').first().contains(101);
+  });
+  it('should undo the vote if the request fails', () => {
+    cy.route({
+      method: 'PATCH', 
+      url: '/api/articles/1', 
+      response: {},
+      status: 400,
+      delay: 500
+    }).as('badVoteOnArticle');
+    cy.get('[data-cy=vote]');
+    cy.get('[data-cy=votes]').first().contains(100);
+    cy.get('[data-cy=upvote]').first().click();
+    cy.get('[data-cy=votes]').first().contains(101);
+    cy.wait('@badVoteOnArticle');
+    cy.get('[data-cy=votes]').first().contains(100);
   });
 });
