@@ -2,6 +2,8 @@
   height: 100vh;
   margin: 0;
   width: 100vw;
+  max-width: 960px;
+  margin: auto;
   padding: 0;
   display: grid;
   grid-template-rows: 2fr 14fr 1fr;
