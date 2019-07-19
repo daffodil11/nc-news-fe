@@ -14,9 +14,9 @@ function Vote({ section, id, votes }) {
 
   return (
     <div data-cy="vote" >
-      <button className="vote-button" data-cy="upvote" onClick={() => handleVoteChange(1)} disabled={voteChange===1} >+</button>
+      <button className="vote-button" data-cy="upvote" onClick={() => handleVoteChange(1)} disabled={voteChange===1} >&#8593;</button>
       <span data-cy="votes" >{votes + voteChange}</span>
-      <button className="vote-button" data-cy="downvote" onClick={() => handleVoteChange(-1)} disabled={voteChange===-1}>-</button>      
+      <button className="vote-button" data-cy="downvote" onClick={() => handleVoteChange(-1)} disabled={voteChange===-1}>&#8595;</button>      
     </div>
   );
 }
