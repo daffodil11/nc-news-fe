@@ -4,7 +4,7 @@
   width: 100vw;
   padding: 0;
   display: grid;
-  grid-template-rows: 2fr 1fr 14fr 1fr;
+  grid-template-rows: 2fr 14fr 1fr;
 }
 
 h1 {
