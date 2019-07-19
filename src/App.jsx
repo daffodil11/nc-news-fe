@@ -12,9 +12,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Northcoders News</h1>
-        <NavTopics />
-        <Router className="nc-news-body" >
+        <header>
+          <h1>Northcoders News</h1>
+          <NavTopics />
+        </header>
+        <Router className="nc-news-body" role="main" >
           <ArticleList path="/" />
           <Error path="/error" />
           <ArticleList path="/:topic" />

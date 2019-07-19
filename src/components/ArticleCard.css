@@ -1,13 +1,18 @@
 .article-card {
-  margin: 20px 5px;
+  margin: 10px 5px;
+  padding: 10px 0px;
+}
+
+.article-card:nth-child(n+2) {
+  border-top: solid 1px black;
 }
 
 .article-card a {
   text-decoration: none;
 }
 
-.article-card h3 {
-  font-size: 1em;
+.article-card h2 {
+  font-size: 1.1rem;
   margin: 0;
   padding: 0;
 }

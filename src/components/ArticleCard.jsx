@@ -9,7 +9,7 @@ function ArticleCard({ article: { title, article_id, topic, author, age, votes, 
       <div className="article-card" data-cy="article-card" >
         <Link to={`/${topic}/${article_id}`} >
           <div>
-            <h3 className="article-title" data-cy="title">{title}</h3>
+            <h2 className="article-title" data-cy="title">{title}</h2>
             <div className="article-info">
               <span data-cy="author">{author}</span>
               <span data-cy="timestamp">{age} ago</span>

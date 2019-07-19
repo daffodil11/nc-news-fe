@@ -18,7 +18,8 @@ class CommentForm extends Component {
     const { comment, submitDisabled } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
-        <textarea data-cy="comment-form-body" rows="5" cols="40" placeholder="Write a new comment..." value={comment} onChange={this.handleChange} disabled={submitDisabled} />
+        <label htmlFor="comment-form-body" className="offscreen" >Submit a comment</label>
+        <textarea id="comment-form-body" data-cy="comment-form-body" rows="5" cols="40" placeholder="Write a new comment..." value={comment} onChange={this.handleChange} disabled={submitDisabled} />
         <button type="submit" disabled={submitDisabled} data-cy="comment-form-submit">Post comment</button>
       </form>
     );
