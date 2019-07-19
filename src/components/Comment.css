@@ -14,3 +14,9 @@
   flex-flow: row nowrap;
   justify-content: space-between;
 }
+
+.vote-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Comment.css';
+import Vote from './Vote';
 
 function Comment({ comment: { comment_id, author, votes, age, body } }) {
   return (
@@ -12,8 +13,8 @@ function Comment({ comment: { comment_id, author, votes, age, body } }) {
         </div>
         <p data-cy="comment-body">{body}</p>
       </div>
-      <div>
-        <div className="vote">{votes}</div>
+      <div className="vote-container">
+        <Vote section="comments" id={comment_id} votes={votes} />
       </div>
     </div>
   );
