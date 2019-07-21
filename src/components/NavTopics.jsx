@@ -11,11 +11,12 @@ class NavTopics extends Component {
 
   render() {
     const { topics, open } = this.state;
+    const { URL } = document;
     return (
       <nav className={open ? "nav-open" : "nav-closed"}>
-          {open ? <Link className="nav-button" to="/">all</Link> : <a className="nav-button" onClick={this.toggleMenu} >Topics</a>}
+          {open ? <Link className="nav-button" to="/" onClick={this.toggleMenu} >all</Link> : <a className="nav-button" onClick={this.toggleMenu} >Topics</a>}
             {topics.map(({ slug, description }) => (
-              <Link to={'/' + slug} title={description} className="nav-button" data-cy="topic-button" key={slug}>{slug}</Link>
+              <Link to={'/' + slug} title={description} className={`nav-button${URL.includes(slug) ? " current" : ""}`} data-cy="topic-button" key={slug} onClick={this.toggleMenu} >{slug}</Link>
                 ))}
       </nav>
     );
@@ -31,7 +32,9 @@ class NavTopics extends Component {
   }
 
   toggleMenu = () => {
-    this.setState(state => ({ open: !state.open }));
+    if (document.body.clientWidth < 600) {
+      this.setState(state => ({ open: !state.open }));
+    }
   }
 }
 
