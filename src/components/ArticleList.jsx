@@ -9,8 +9,8 @@ class ArticleList extends Component {
 
   state = {
     isLoaded: false,
-    sort_by: null,
-    order: null,
+    sort_by: undefined,
+    order: undefined,
     error: null,
     articles: []
   }
