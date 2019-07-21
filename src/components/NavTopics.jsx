@@ -25,6 +25,9 @@ class NavTopics extends Component {
     api.getTopics().then(({ data: { topics } }) => {
       this.setState({ topics });
     });
+    if (document.body.clientWidth >= 600) {
+      this.setState({ open: true });
+    }
   }
 
   toggleMenu = () => {
