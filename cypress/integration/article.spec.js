@@ -76,12 +76,13 @@ describe('/', () => {
     cy.get('[data-cy=comment]').first().get('[data-cy=del-button]').click();
     cy.get('[data-cy=comment-body]').should('have.length', 2);
   });
-  it.only('should restore the comment on the page if the deletion fails', () => {
+  it('should restore the comment on the page if the deletion fails', () => {
     cy.route({
       method: 'DELETE',
       url: '/api/comments/*',
       status: 500,
-      delay: 500
+      delay: 500,
+      response: {}
     }).as('deleteCommentFail');
     cy.get('[data-cy=comment]').first().get('[data-cy=del-button]').click();
     cy.get('[data-cy=comment-body]').should('have.length', 2);
