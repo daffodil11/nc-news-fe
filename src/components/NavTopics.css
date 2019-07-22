@@ -19,12 +19,12 @@ nav {
 
 nav.nav-closed {
   max-height: 45px;
-  transition: max-height 1s;
+  transition: max-height 600ms;
 }
 
 nav.nav-open {
   max-height: 250px;
-  transition: max-height 1s;
+  transition: max-height 600ms;
 }
 
 .nav-button {
@@ -38,6 +38,16 @@ nav.nav-open {
   min-height: 20px;
   max-height: 30px;
   text-align: center;
+}
+
+.nav-button svg line {
+  stroke: black;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.nav-button:hover svg line {
+  stroke: white;
 }
 
 nav.nav-closed > .nav-button:first-child {
