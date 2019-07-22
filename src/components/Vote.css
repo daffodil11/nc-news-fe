@@ -1,5 +1,8 @@
 .vote-button {
-  height: 30px;
+  height: 35px;
   width: 30px;
-  margin: 0 5px;
+  margin: 0 10px;
+  font-size: 1.25em;
+  font-weight: bold;
+  text-align: center;
 }
