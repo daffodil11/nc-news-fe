@@ -1,3 +1,15 @@
+form {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
 textarea {
   resize: none;
+  margin: 2px;
+}
+
+form button {
+  margin: 2px;
 }

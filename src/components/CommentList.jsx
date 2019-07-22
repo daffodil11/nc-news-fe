@@ -21,10 +21,10 @@ class CommentList extends Component {
   render() {
     const { error, isLoaded, comments } = this.state;
     if (error) {
-      return <div data-cy="comments-error">Error displaying comments: {error.msg || error.message}</div>;
+      return <div className="comments-list" data-cy="comments-error">Error displaying comments: {error.msg || error.message}</div>;
     } else if (isLoaded) {
       return (
-        <div>
+        <div className="comments-list" >
           <h3>Comments</h3>
           <CommentForm submitForm={this.submitForm} swapInComment={this.swapInComment} reverseOptimisticRender={this.reverseOptimisticRender} />
           <div className="comments-container">
