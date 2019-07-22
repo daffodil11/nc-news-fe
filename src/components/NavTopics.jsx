@@ -11,7 +11,7 @@ class NavTopics extends Component {
     open: false
   }
 
-  propTypes = {
+  static propTypes = {
     username: PropTypes.string
   }
 
@@ -27,7 +27,7 @@ class NavTopics extends Component {
           {topics.map(({ slug, description }) => (
             <Link to={'/' + slug} title={description} className={`nav-button${URL.includes(slug) ? " current" : ""}`} data-cy="topic-button" key={slug} onClick={this.toggleMenu} >{slug}</Link>))}
         </nav>
-        <div className="user-welcome">
+        <div className="user-welcome" data-cy="user-welcome" >
           Welcome,&nbsp;<span className="username">{username || 'guest'}</span>!
         </div>
       </div>
