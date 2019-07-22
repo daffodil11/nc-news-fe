@@ -1,0 +1,10 @@
+svg.toggle line {
+  stroke: black;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+*:hover > svg.toggle line {
+  stroke: white;
+}
+

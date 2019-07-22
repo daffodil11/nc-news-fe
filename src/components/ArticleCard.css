@@ -1,6 +1,6 @@
 .article-card {
-  margin: 10px 5px;
-  padding: 10px 0px;
+  margin: 6px 5px;
+  padding: 6px 0px;
 }
 
 .article-card:nth-child(n+2) {
@@ -21,12 +21,12 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  margin: 0;
+  margin: 5px 0;
   padding: 0;
 }
 
-.article-interactions {
+.vote-container {
   display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 }

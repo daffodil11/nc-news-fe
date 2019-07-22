@@ -12,12 +12,12 @@ function ArticleCard({ article: { title, article_id, topic, author, age, votes, 
             <h2 className="article-title" data-cy="title">{title}</h2>
             <div className="article-info">
               <span data-cy="author">{author}</span>
+              <span data-cy="comments">{comment_count} comments</span>
               <span data-cy="timestamp">{age} ago</span>
             </div>
           </div>
         </Link>
-        <div className="article-interactions">
-          <span data-cy="comments">{comment_count} comments</span>
+        <div className="vote-container">
           <Vote section="articles" id={article_id} votes={votes} />
         </div>
       </div>

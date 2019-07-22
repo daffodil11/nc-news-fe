@@ -3,6 +3,6 @@ p {
   text-align: center;
 }
 
-a {
+a.external-link {
   text-decoration: underline;
 }

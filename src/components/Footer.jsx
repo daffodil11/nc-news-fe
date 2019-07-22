@@ -4,7 +4,7 @@ import './Footer.css';
 function Footer() {
   return (
     <footer>
-      <p>Like this website? Check out the <a href="https://github.com/daffodil11/nc-news-fe" title="Source code on GitHub">source code</a>!</p>
+      <p>Like this website? Check out the <a className="external-link" href="https://github.com/daffodil11/nc-news-fe" title="Source code on GitHub">source code</a>!</p>
     </footer>
   );
 }

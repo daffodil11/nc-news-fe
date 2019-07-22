@@ -16,14 +16,16 @@ class App extends Component {
           <h1>Northcoders News</h1>
           <NavTopics />
         </header>
-        <Router className="nc-news-body" role="main" >
-          <ArticleList path="/" />
-          <Error path="/error" />
-          <ArticleList path="/:topic" />
-          <ArticlePage path="/:topic/:article_id" />
-          <Error default />
-        </Router>
-        <Footer />
+        <div className="container">
+          <Router className="nc-news-body" role="main" >
+            <ArticleList path="/" />
+            <Error path="/error" />
+            <ArticleList path="/:topic" />
+            <ArticlePage path="/:topic/:article_id" />
+            <Error default />
+          </Router>
+          <Footer />
+        </div>
       </div>
     );
   }
