@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import './Comment.css';
 import Vote from './Vote';
 
-function Comment({ comment: { comment_id, author, votes, age, body }, votingDisabled }) {
+function Comment({ comment: { comment_id, author, votes, age, body }, votingDisabled, handleDelete }) {
+
   return (
     <div id={comment_id || "new-comment"} className="comment" data-cy="comment">
       <div>
@@ -15,7 +16,7 @@ function Comment({ comment: { comment_id, author, votes, age, body }, votingDisa
       </div>
       <div className="vote-container">
           {votingDisabled ? (
-            <button>Delete</button>
+            <button data-cy="del-button" onClick={handleDelete} >Delete</button>
           ) : (
             <Vote section="comments" id={comment_id} votes={votes} votingDisabled={votingDisabled} />
           )}
@@ -32,7 +33,8 @@ Comment.propTypes = {
     age: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired
   }),
-  votingDisabled: PropTypes.bool
+  votingDisabled: PropTypes.bool,
+  handleDelete: PropTypes.func
 };
 
 export default Comment;

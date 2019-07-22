@@ -38,10 +38,7 @@ class App extends Component {
 
   componentDidMount() {
     const userStr = sessionStorage.getItem('nc-news-user');
-    if (userStr || JSON.parse(userStr).username === 'guest') {
-      const user = JSON.parse(userStr);
-      this.setState({ user });
-    } else {
+    if (!userStr || JSON.parse(userStr).username === 'guest') {
       api.getRandomUser().then(user => {
         this.setState({ user });
         sessionStorage.setItem('nc-news-user', JSON.stringify(user));
@@ -53,6 +50,9 @@ class App extends Component {
           avatar_url: ''
         }
       }));
+    } else {
+      const user = JSON.parse(userStr);
+      this.setState({ user });
     }
   }
 }
