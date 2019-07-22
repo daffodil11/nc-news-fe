@@ -1,5 +1,10 @@
-nav {
+.nav-container {
   width: 100%;
+  display: flex;
+}
+
+nav {
+  flex: 4 1 auto;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -40,14 +45,8 @@ nav.nav-open {
   text-align: center;
 }
 
-.nav-button svg line {
-  stroke: black;
-  stroke-width: 3;
-  stroke-linecap: round;
-}
-
-.nav-button:hover svg line {
-  stroke: white;
+#nav-toggle {
+  height: 20px;
 }
 
 nav.nav-closed > .nav-button:first-child {
@@ -63,4 +62,22 @@ nav.nav-closed > .nav-button:first-child {
   background: rgba(32, 40, 41, 1);
   color: white;
   cursor: pointer;
+}
+
+.user-welcome {
+  padding: 0 5px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.user-welcome span {
+  margin: 0 3px;
+}
+
+span.username {
+  color: rgba(186, 31, 49, 1);
+  font-weight: 600;
 }
