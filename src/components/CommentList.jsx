@@ -8,7 +8,8 @@ import CommentForm from './CommentForm';
 class CommentList extends Component {
 
   static propTypes = {
-    article_id: PropTypes.number.isRequired
+    article_id: PropTypes.number.isRequired,
+    username: PropTypes.string
   }
 
   state = {
@@ -27,7 +28,7 @@ class CommentList extends Component {
           <h3>Comments</h3>
           <CommentForm submitForm={this.submitForm} swapInComment={this.swapInComment} reverseOptimisticRender={this.reverseOptimisticRender} />
           <div className="comments-container">
-            {comments.map(comment => <Comment key={comment.comment_id || 'new-comment'} comment={comment}/>)}
+            {comments.map(comment => <Comment key={comment.comment_id || 'new-comment'} comment={comment} votingDisabled={comment.author === this.props.username}/>)}
           </div>
         </div>
       );

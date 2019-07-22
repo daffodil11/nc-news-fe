@@ -11,25 +11,23 @@ import * as api from './utils/api';
 class App extends Component {
 
   state = {
-    user: {
-      username: "simon"
-    }
+    user: {}
   }
 
   render() {
-    const { user } = this.state;
+    const { user: { username } } = this.state;
     return (
       <div className="App">
         <header>
           <h1>Northcoders News</h1>
-          <NavTopics username={user.username} />
+          <NavTopics username={username} />
         </header>
         <div className="container">
           <Router className="nc-news-body" role="main" >
-            <ArticleList path="/" />
+            <ArticleList path="/" username={username} />
             <Error path="/error" />
-            <ArticleList path="/:topic" />
-            <ArticlePage path="/:topic/:article_id" />
+            <ArticleList path="/:topic" username={username} />
+            <ArticlePage path="/:topic/:article_id" username={username} />
             <Error default />
           </Router>
           <Footer />
@@ -40,14 +38,21 @@ class App extends Component {
 
   componentDidMount() {
     const userStr = sessionStorage.getItem('nc-news-user');
-    if (userStr) {
+    if (userStr || JSON.parse(userStr).username === 'guest') {
       const user = JSON.parse(userStr);
       this.setState({ user });
     } else {
       api.getRandomUser().then(user => {
         this.setState({ user });
-        sessionStorage.setItem('nc-news-user', JSON.stringify(user))
-      });
+        sessionStorage.setItem('nc-news-user', JSON.stringify(user));
+      })
+      .catch(err => this.setState({
+        user: {
+          username: 'guest',
+          name: 'guest',
+          avatar_url: ''
+        }
+      }));
     }
   }
 }

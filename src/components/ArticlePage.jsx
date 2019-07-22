@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './ArticlePage.css';
+import PropTypes from 'prop-types';
 import * as api from '../utils/api';
 import CommentList from './CommentList';
 import { navigate } from '@reach/router';
@@ -12,6 +13,10 @@ class ArticlePage extends Component {
     article: {}
   }
 
+  static propTypes = {
+    username: PropTypes.string
+  }
+
   render() {
     const { error, isLoaded, article: { title, author, body, article_id } } = this.state;
     if (error) {
@@ -22,7 +27,7 @@ class ArticlePage extends Component {
           <h2 data-cy="title">{title}</h2>        
           <p data-cy="author">{author}</p>
           <p data-cy="body">{body}</p>
-          <CommentList article_id={article_id} />
+          <CommentList article_id={article_id} username={this.props.username} />
         </article>
       );
     } else {

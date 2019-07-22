@@ -46,5 +46,9 @@ export const sendVote = (section, id, vote) => {
 
 export const getRandomUser = () => {
   return axios.get(`${BASE_URL}/users/randomuser`)
-    .then(({ data: { user } }) => user);
+    .then(({ data }) => data.user);
+}
+
+export const deleteComment = comment_id => {
+  return axios.delete(`${BASE_URL}/comments/${comment_id}`);
 }
