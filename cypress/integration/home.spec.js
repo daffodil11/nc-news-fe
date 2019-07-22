@@ -21,7 +21,8 @@ describe('/', () => {
       status: 404,
       response: {}
     }).as('getNonExistentArticle');
-    cy.visit(BASE_URL);
+    cy.route('GET', '/api/users/randomuser', 'fx:user.json').as('getRandomUser');
+    cy.visit(BASE_URL, {onBeforeLoad: () => sessionStorage.clear() });
   });
   it('should have a heading', () => {
     cy.get('h1');
@@ -97,5 +98,21 @@ describe('/', () => {
     cy.get('[data-cy=votes]').first().contains(101);
     cy.wait('@badVoteOnArticle');
     cy.get('[data-cy=votes]').first().contains(100);
+  });
+  it('should welcome the user', () => {
+    cy.get('[data-cy=user-welcome]').contains('daffodil11');
+  });
+  it('should welcome the user as guest if the random user request fails', () => {
+    cy.route({
+      method: 'GET', 
+      url: '/api/users/randomuser',
+      response: {},
+      status: 500,
+      delay: 500
+    }).as('getRandomUserFail');
+    cy.visit(BASE_URL, {onBeforeLoad: () => sessionStorage.clear() });
+    cy.reload(true);
+    cy.wait('@getRandomUserFail');
+    cy.get('[data-cy=user-welcome]').contains('guest');
   });
 });
