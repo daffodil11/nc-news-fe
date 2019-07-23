@@ -27,7 +27,7 @@ I recommend [this excellent guide](https://facebook.github.io/create-react-app/d
 ## Contributing
 This project is a portfolio piece and is not accepting contributions.
 
-##Authors
+## Authors
 Simon Davey
 
 ## Acknowledgements
