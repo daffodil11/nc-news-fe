@@ -20,7 +20,7 @@ class CommentForm extends Component {
       <form onSubmit={this.handleSubmit}>
         <label htmlFor="comment-form-body" className="offscreen" >Submit a comment</label>
         <textarea id="comment-form-body" data-cy="comment-form-body" rows="5" cols="40" placeholder="Write a new comment..." value={comment} onChange={this.handleChange} disabled={submitDisabled} />
-        <button type="submit" disabled={submitDisabled} data-cy="comment-form-submit">Post comment</button>
+        <button type="submit" disabled={submitDisabled || comment.length === 0} data-cy="comment-form-submit">Post comment</button>
       </form>
     );
   }

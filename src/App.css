@@ -45,3 +45,10 @@ button:hover {
   color: white;
   cursor: pointer;
 }
+
+button:disabled {
+  background: #555;
+  color: white;
+  cursor: auto;
+  border: 1px solid #555;
+}

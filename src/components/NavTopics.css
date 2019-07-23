@@ -73,10 +73,6 @@ nav.nav-closed > .nav-button:first-child {
   align-items: flex-start;
 }
 
-.user-welcome span {
-  margin: 0 3px;
-}
-
 span.username {
   color: rgba(186, 31, 49, 1);
   font-weight: 600;

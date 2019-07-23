@@ -43,3 +43,12 @@ export const postComment = (article_id, username, body) => {
 export const sendVote = (section, id, vote) => {
   return axios.patch(`${BASE_URL}/${section}/${id}`, { inc_votes: vote }).then(response => response.data);
 };
+
+export const getRandomUser = () => {
+  return axios.get(`${BASE_URL}/users/randomuser`)
+    .then(({ data }) => data.user);
+}
+
+export const deleteComment = comment_id => {
+  return axios.delete(`${BASE_URL}/comments/${comment_id}`);
+}

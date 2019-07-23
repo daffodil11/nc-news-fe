@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './NavTopics.css';
 import * as api from '../utils/api.js';
 import NavToggleButton from './NavToggleIcon';
@@ -10,10 +11,14 @@ class NavTopics extends Component {
     open: false
   }
 
+  static propTypes = {
+    username: PropTypes.string
+  }
+
   render() {
     const { topics, open } = this.state;
     const { URL } = document;
-    const username = "daffodil11";
+    const { username } = this.props;
     return (
       <div className="nav-container">
         <nav className={open ? "nav-open" : "nav-closed"}>
@@ -22,9 +27,8 @@ class NavTopics extends Component {
           {topics.map(({ slug, description }) => (
             <Link to={'/' + slug} title={description} className={`nav-button${URL.includes(slug) ? " current" : ""}`} data-cy="topic-button" key={slug} onClick={this.toggleMenu} >{slug}</Link>))}
         </nav>
-        <div className="user-welcome">
-          <span>Welcome,</span>
-          <span className="username">{username}!</span>
+        <div className="user-welcome" data-cy="user-welcome" >
+          Welcome,&nbsp;<span className="username">{username || 'guest'}</span>!
         </div>
       </div>
     );

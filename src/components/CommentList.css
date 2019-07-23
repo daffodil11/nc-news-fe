@@ -1,3 +1,12 @@
+.comments-list {
+  width: 100%;  
+  border-top: solid 1px rgba(32, 40, 41, 1);
+}
+
+.comments-list h3 {
+  margin: 15px 0 5px 0;
+}
+
 #new-comment {
   background: #EEFFEE;
   transition: background 300ms ease-in-out;

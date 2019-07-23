@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './ArticleList.css';
+import PropTypes from 'prop-types';
 import { navigate } from '@reach/router';
 import * as api from '../utils/api.js';
 import ArticleCard from './ArticleCard';
@@ -15,14 +16,19 @@ class ArticleList extends Component {
     articles: []
   }
 
+  static propTypes = {
+    username: PropTypes.string
+  }
+
   render() {
     const { isLoaded, error, articles, sort_by, order } = this.state;
+    const { username } = this.props;
     if (error) return <div data-cy="error">Error: {error.msg || error.message}</div>;
     else if (isLoaded) return (
       <div>
         <SortControls handleSelectChange={this.handleSelectChange} sort_by={sort_by} order={order} />
         <div>
-            {articles.map(article => <ArticleCard key={article.article_id} article={article} />)}
+            {articles.map(article => <ArticleCard key={article.article_id} article={article} votingDisabled={article.author === username} />)}
         </div>
       </div>
       );

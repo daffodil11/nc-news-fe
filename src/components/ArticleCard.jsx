@@ -4,7 +4,7 @@ import { Link } from '@reach/router';
 import Vote from './Vote';
 import './ArticleCard.css';
 
-function ArticleCard({ article: { title, article_id, topic, author, age, votes, userVotes, comment_count } }) {
+function ArticleCard({ article: { title, article_id, topic, author, age, votes, userVotes, comment_count}, votingDisabled }) {
   return (
       <div className="article-card" data-cy="article-card" >
         <Link to={`/${topic}/${article_id}`} >
@@ -18,7 +18,7 @@ function ArticleCard({ article: { title, article_id, topic, author, age, votes, 
           </div>
         </Link>
         <div className="vote-container">
-          <Vote section="articles" id={article_id} votes={votes} />
+          <Vote section="articles" id={article_id} votes={votes} votingDisabled={votingDisabled} />
         </div>
       </div>
   );
@@ -35,7 +35,8 @@ ArticleCard.propTypes = {
     age: PropTypes.string,
     comment_count: PropTypes.number,
     votes: PropTypes.number.isRequired,
-    userVotes: PropTypes.number
+    userVotes: PropTypes.number,
+    votingDisabled: PropTypes.bool
   })
 };
 

@@ -6,28 +6,54 @@ import ArticleList from './components/ArticleList';
 import ArticlePage from './components/ArticlePage';
 import Error from './components/Error';
 import Footer from './components/Footer';
+import * as api from './utils/api';
 
 class App extends Component {
 
+  state = {
+    user: {}
+  }
+
   render() {
+    const { user: { username } } = this.state;
     return (
       <div className="App">
         <header>
           <h1>Northcoders News</h1>
-          <NavTopics />
+          <NavTopics username={username} />
         </header>
         <div className="container">
           <Router className="nc-news-body" role="main" >
-            <ArticleList path="/" />
+            <ArticleList path="/" username={username} />
             <Error path="/error" />
-            <ArticleList path="/:topic" />
-            <ArticlePage path="/:topic/:article_id" />
+            <ArticleList path="/:topic" username={username} />
+            <ArticlePage path="/:topic/:article_id" username={username} />
             <Error default />
           </Router>
           <Footer />
         </div>
       </div>
     );
+  }
+
+  componentDidMount() {
+    const userStr = sessionStorage.getItem('nc-news-user');
+    if (!userStr || JSON.parse(userStr).username === 'guest') {
+      api.getRandomUser().then(user => {
+        this.setState({ user });
+        sessionStorage.setItem('nc-news-user', JSON.stringify(user));
+      })
+      .catch(err => this.setState({
+        user: {
+          username: 'guest',
+          name: 'guest',
+          avatar_url: ''
+        }
+      }));
+    } else {
+      const user = JSON.parse(userStr);
+      this.setState({ user });
+    }
   }
 }
 
