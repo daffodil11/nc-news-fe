@@ -49,7 +49,10 @@ class ArticleList extends Component {
     const hasOrderChanged = prevState.order !== this.state.order;
     const hasPageChanged = prevState.p !== this.state.p;
     if (hasTopicChanged || hasSortByChanged || hasOrderChanged || hasPageChanged) {
-      this.fetchArticles(hasPageChanged);
+      this.fetchArticles(hasPageChanged, hasSortByChanged || hasOrderChanged);
+      if (hasTopicChanged) {
+        this.setState({ p: 1})
+      }
     }
   }
 
@@ -62,9 +65,10 @@ class ArticleList extends Component {
     this.setState({ [id]: value });
   }
 
-  fetchArticles(append) {
+  fetchArticles(append, preserveArticleCount) {
     const { sort_by, order, p } = this.state;
-    api.getArticles(this.props.topic, sort_by, order, p).then(articles => {
+    const limit = (preserveArticleCount) ? p * 10 : undefined;
+    api.getArticles(this.props.topic, sort_by, order, (p > 1) ? p : undefined, limit).then(articles => {
       if (append) {
         this.setState(state => ({ articles: [...state.articles, ...articles] }));
       } else {
