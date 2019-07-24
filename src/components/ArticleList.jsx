@@ -13,7 +13,8 @@ class ArticleList extends Component {
     sort_by: undefined,
     order: undefined,
     error: null,
-    articles: []
+    articles: [],
+    p: 1
   }
 
   static propTypes = {
@@ -30,14 +31,10 @@ class ArticleList extends Component {
         <div>
             {articles.map(article => <ArticleCard key={article.article_id} article={article} votingDisabled={article.author === username} />)}
         </div>
+        <button data-cy="load-more" onClick={this.loadNextPage} >Load more articles</button>
       </div>
       );
     else return <div data-cy="loading" >Loading...</div>;
-  }
-
-  handleSelectChange = (event) => {
-    const { id, value } = event.target;
-    this.setState({ [id]: value });
   }
 
   componentDidMount() {
@@ -51,6 +48,11 @@ class ArticleList extends Component {
     if (hasTopicChanged || hasSortByChanged || hasOrderChanged) {
       this.fetchArticles();
     }
+  }
+
+  handleSelectChange = (event) => {
+    const { id, value } = event.target;
+    this.setState({ [id]: value });
   }
 
   fetchArticles() {
