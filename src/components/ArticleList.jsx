@@ -31,7 +31,9 @@ class ArticleList extends Component {
         <div>
             {articles.map(article => <ArticleCard key={article.article_id} article={article} votingDisabled={article.author === username} />)}
         </div>
-        <button data-cy="load-more" onClick={this.loadNextPage} >Load more articles</button>
+        <div className="article-list-footer">
+          <button className="load-more" data-cy="load-more" onClick={this.loadNextPage} >Load more articles</button>
+        </div>
       </div>
       );
     else return <div data-cy="loading" >Loading...</div>;

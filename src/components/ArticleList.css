@@ -1,0 +1,10 @@
+.article-list-footer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+button.load-more {
+  font-size: 1.1em;
+  padding: 5px 10px;
+}
