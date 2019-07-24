@@ -45,9 +45,14 @@ class ArticleList extends Component {
     const hasTopicChanged = prevProps.topic !== this.props.topic;
     const hasSortByChanged = prevState.sort_by !== this.state.sort_by;
     const hasOrderChanged = prevState.order !== this.state.order;
-    if (hasTopicChanged || hasSortByChanged || hasOrderChanged) {
-      this.fetchArticles();
+    const hasPageChanged = prevState.p !== this.state.p;
+    if (hasTopicChanged || hasSortByChanged || hasOrderChanged || hasPageChanged) {
+      this.fetchArticles(hasPageChanged);
     }
+  }
+
+  loadNextPage = event => {
+    this.setState(state => ({ p: state.p + 1 }));
   }
 
   handleSelectChange = (event) => {
@@ -55,10 +60,14 @@ class ArticleList extends Component {
     this.setState({ [id]: value });
   }
 
-  fetchArticles() {
-    const { sort_by, order } = this.state;
-    api.getArticles(this.props.topic, sort_by, order).then(articles => {
-      this.setState({ articles, isLoaded: true });
+  fetchArticles(append) {
+    const { sort_by, order, p } = this.state;
+    api.getArticles(this.props.topic, sort_by, order, p).then(articles => {
+      if (append) {
+        this.setState(state => ({ articles: [...state.articles, ...articles] }));
+      } else {
+        this.setState({ articles, isLoaded: true });
+      }
     })
     .catch(err => {
       navigate('/error', {
