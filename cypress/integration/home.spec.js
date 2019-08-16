@@ -4,9 +4,10 @@ describe('/', () => {
   beforeEach(() => {
     cy.server();
     cy.route('GET', '/api/topics', 'fx:topics.json').as('getTopics');
+    cy.route('GET', '/api/articles?p=2', 'fx:articles_p2.json').as('getMoreArticles');
     cy.route('GET', '/api/articles', 'fx:articles.json').as('getArticles');
-    cy.route('GET', '/api/articles?sort_by=comment_count', 'fx:articles_sort_by_comments.json').as('getArticlesSortByComments');
-    cy.route('GET', '/api/articles?sort_by=comment_count&order=asc', 'fx:articles_sort_by_comments_asc.json').as('getArticlesSortByCommentsAscending');
+    cy.route('GET', '/api/articles?sort_by=comment_count&limit=10', 'fx:articles_sort_by_comments.json').as('getArticlesSortByComments');
+    cy.route('GET', '/api/articles?sort_by=comment_count&order=asc&limit=10', 'fx:articles_sort_by_comments_asc.json').as('getArticlesSortByCommentsAscending');
     cy.route('GET', '/api/articles?topic=mitch', 'fx:mitch.json').as('getMitch');
     cy.route('GET', '/api/articles/*', 'fx:article.json').as('getArticle');
     cy.route({
@@ -114,5 +115,9 @@ describe('/', () => {
     cy.reload(true);
     cy.wait('@getRandomUserFail');
     cy.get('[data-cy=user-welcome]').contains('guest');
+  });
+  it('should have have a button that loads more article cards', () => {
+    cy.get('[data-cy=load-more]').click();
+    cy.get('[data-cy=article-card]').should('have.length', 20);
   });
 });

@@ -10,8 +10,10 @@ import * as api from './utils/api';
 
 class App extends Component {
 
-  state = {
-    user: {}
+  constructor(props) {
+    super(props);
+    this.containerRef = React.createRef();
+    this.state = { user: {} };
   }
 
   render() {
@@ -22,11 +24,11 @@ class App extends Component {
           <h1>Northcoders News</h1>
           <NavTopics username={username} />
         </header>
-        <div className="container">
+        <div className="container" ref={this.containerRef}>
           <Router className="nc-news-body" role="main" >
-            <ArticleList path="/" username={username} />
+            <ArticleList path="/" username={username} scrollToTop={this.scrollToTop} />
             <Error path="/error" />
-            <ArticleList path="/:topic" username={username} />
+            <ArticleList path="/:topic" username={username} scrollToTop={this.scrollToTop} />
             <ArticlePage path="/:topic/:article_id" username={username} />
             <Error default />
           </Router>
@@ -34,6 +36,10 @@ class App extends Component {
         </div>
       </div>
     );
+  }
+
+  scrollToTop = () => {
+    this.containerRef.current.scrollTo(0, 0);
   }
 
   componentDidMount() {
