@@ -10,8 +10,10 @@ import * as api from './utils/api';
 
 class App extends Component {
 
-  state = {
-    user: {}
+  constructor(props) {
+    super(props);
+    this.containerRef = React.createRef();
+    this.state = { user: {} };
   }
 
   render() {
@@ -22,7 +24,7 @@ class App extends Component {
           <h1>Northcoders News</h1>
           <NavTopics username={username} />
         </header>
-        <div className="container">
+        <div className="container" ref={this.containerRef}>
           <Router className="nc-news-body" role="main" >
             <ArticleList path="/" username={username} />
             <Error path="/error" />
@@ -34,6 +36,11 @@ class App extends Component {
         </div>
       </div>
     );
+  }
+
+  scrollToTop = () => {
+    console.log("ArticleList component has updated.");
+    this.containerRef.current.scrollTo(0, 0);
   }
 
   componentDidMount() {
