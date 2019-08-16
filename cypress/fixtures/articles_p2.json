@@ -1,0 +1,72 @@
+{ "articles": 
+  [
+    {
+      "article_id": 11,
+      "title": "Chainsaw juggling for fun and profit",
+      "topic": "mitch",
+      "author": "butter_bridge",
+      "created_at": 1542284514171,
+      "votes": 100,
+      "comment_count": 5
+    },
+    {
+      "article_id": 12,
+      "title": "What's wrong with art?",
+      "topic": "mitch",
+      "author": "icellusedkars",
+      "created_at": 1416140514171,
+      "votes": 100,
+      "comment_count": 3
+    },
+    {
+      "article_id": 13,
+      "title": "Cat burglar steals self out of prison",
+      "topic": "cats",
+      "author": "icellusedkars",
+      "created_at": 1289996514171,
+      "votes": 100,
+      "comment_count": 8
+    },
+    {
+      "article_id": 14,
+      "title": "Mitches Brew: The greatest jazz album never made?",
+      "topic": "mitch",
+      "author": "rogersop",
+      "created_at": 1163852514171,
+      "votes": 100,
+      "comment_count": 5
+    },
+    {
+      "article_id": 15,
+      "title": "New study suggests that your cat is the cutest little kitty ever, yes it is",
+      "topic": "cats",
+      "author": "rogersop",
+      "created_at": 1037708514171,
+      "votes": 100,
+      "comment_count": 5 }, 
+      { "article_id": 16, "title": "A low effort title", "topic": "mitch", "author": "icellusedkars", "created_at": 911564514171, "votes": 100, "comment_count": 5 },
+      { "article_id": 17, "title": "Zecond low effort title", "topic": "mitch", "author": "icellusedkars", "created_at": 785420514171, "votes": 100, "comment_count": 5 }, 
+      { "article_id": 18, "title": "What is Mitch short for? A genetic analysis.", "topic": "mitch", "author": "icellusedkars", "created_at": 659276514171,
+      "votes": 100,
+      "comment_count": 5
+    },
+    {
+      "article_id": 19,
+      "title": "Running out of ideas now",
+      "topic": "mitch",
+      "author": "butter_bridge",
+      "created_at": 533132514171,
+      "votes": 100,
+      "comment_count": 5
+    },
+    {
+      "article_id": 20,
+      "title": "No-one will see this, probably",
+      "topic": "mitch",
+      "author": "butter_bridge",
+      "created_at": 154700514171,
+      "votes": 100,
+      "comment_count": 5
+    }
+  ]
+}

@@ -4,6 +4,7 @@ describe('/', () => {
   beforeEach(() => {
     cy.server();
     cy.route('GET', '/api/topics', 'fx:topics.json').as('getTopics');
+    cy.route('GET', '/api/articles?p=2', 'fx:articles_p2.json').as('getMoreArticles');
     cy.route('GET', '/api/articles', 'fx:articles.json').as('getArticles');
     cy.route('GET', '/api/articles?sort_by=comment_count', 'fx:articles_sort_by_comments.json').as('getArticlesSortByComments');
     cy.route('GET', '/api/articles?sort_by=comment_count&order=asc', 'fx:articles_sort_by_comments_asc.json').as('getArticlesSortByCommentsAscending');
@@ -24,23 +25,23 @@ describe('/', () => {
     cy.route('GET', '/api/users/randomuser', 'fx:user.json').as('getRandomUser');
     cy.visit(BASE_URL, {onBeforeLoad: () => sessionStorage.clear() });
   });
-  it('should have a heading', () => {
+  xit('should have a heading', () => {
     cy.get('h1');
   });
-  it('should have a footer', () => {
+  xit('should have a footer', () => {
     cy.get('footer');
   });
-  it('should have nav buttons that go to topic pages', () => {
+  xit('should have nav buttons that go to topic pages', () => {
     cy.get('[data-cy=topic-button]').then(arr => arr[0]).click();
     cy.url().should('equal', BASE_URL+'mitch');
     cy.get('[data-cy=article-card]').should('have.length', 9);
     cy.get('a').then(arr => arr[0]).click();
     cy.url().should('equal', BASE_URL);
   });
-  it('should display a loading message until the articles are retrieved', () => {
+  xit('should display a loading message until the articles are retrieved', () => {
     cy.get('[data-cy=loading]');
   });
-  it('should display an error message on a bad response', () => {
+  xit('should display an error message on a bad response', () => {
     cy.get('[data-cy=loading]');
     cy.route('GET', '/api/articles?topic=trump', {}).as('getBadTopic');
     cy.visit(BASE_URL + 'trump');
@@ -54,29 +55,29 @@ describe('/', () => {
     cy.get('[data-cy=article-card] [data-cy=comments]');
     cy.get('[data-cy=article-card] [data-cy=timestamp]');
   });
-  it('should have article cards that link through to the article', () => {
-    cy.wait(['@getTopics', '@getArticles']);
+  xit('should have article cards that link through to the article', () => {
+    cy.waxit(['@getTopics', '@getArticles']);
     cy.get('[data-cy=article-card] a').first().click({ force: true });
     cy.get('[data-cy=title]');
     cy.get('[data-cy=body]');
   });
-  it('should have an input that changes the article sorting', () => {
+  xit('should have an input that changes the article sorting', () => {
     cy.get('[data-cy=sort-by]').select('Comments');
-    cy.wait(['@getArticlesSortByComments']);
+    cy.waxit(['@getArticlesSortByComments']);
     cy.get('[data-cy=article-card]').first().contains('pug');
   });
-  it('should have an input that changes the article sort order', () => {
+  xit('should have an input that changes the article sort order', () => {
     cy.get('[data-cy=sort-by]').select('Comments');
     cy.get('[data-cy=order]').select('Low to High');
-    cy.wait('@getArticlesSortByCommentsAscending');
+    cy.waxit('@getArticlesSortByCommentsAscending');
     cy.get('[data-cy=article-card]').first().contains('Sony');
   });
-  it('should go to an error page on any non-existent path', () => {
+  xit('should go to an error page on any non-existent path', () => {
     cy.visit(BASE_URL + 'mitch/1001');
     cy.url().should('equal', BASE_URL+'error');
     cy.get('[data-cy=error-message]');
   });
-  it('should allow the user to vote once on each article', () => {
+  xit('should allow the user to vote once on each article', () => {
     cy.get('[data-cy=vote]');
     cy.get('[data-cy=votes]').first().contains(100);
     cy.get('[data-cy=upvote]').first().click();
@@ -84,7 +85,7 @@ describe('/', () => {
     cy.get('[data-cy=upvote]').first().click({ force: true });
     cy.get('[data-cy=votes]').first().contains(101);
   });
-  it('should undo the vote if the request fails', () => {
+  xit('should undo the vote if the request fails', () => {
     cy.route({
       method: 'PATCH', 
       url: '/api/articles/1', 
@@ -96,13 +97,13 @@ describe('/', () => {
     cy.get('[data-cy=votes]').first().contains(100);
     cy.get('[data-cy=upvote]').first().click();
     cy.get('[data-cy=votes]').first().contains(101);
-    cy.wait('@badVoteOnArticle');
+    cy.waxit('@badVoteOnArticle');
     cy.get('[data-cy=votes]').first().contains(100);
   });
-  it('should welcome the user', () => {
+  xit('should welcome the user', () => {
     cy.get('[data-cy=user-welcome]').contains('daffodil11');
   });
-  it('should welcome the user as guest if the random user request fails', () => {
+  xit('should welcome the user as guest if the random user request fails', () => {
     cy.route({
       method: 'GET', 
       url: '/api/users/randomuser',
@@ -112,7 +113,11 @@ describe('/', () => {
     }).as('getRandomUserFail');
     cy.visit(BASE_URL, {onBeforeLoad: () => sessionStorage.clear() });
     cy.reload(true);
-    cy.wait('@getRandomUserFail');
+    cy.waxit('@getRandomUserFail');
     cy.get('[data-cy=user-welcome]').contains('guest');
+  });
+  it('should have have a button that loads more article cards', () => {
+    cy.get('[data-cy=load-more]').click();
+    cy.get('[data-cy=article-card]').should('have.length', 20);
   });
 });
