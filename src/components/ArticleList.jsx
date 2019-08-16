@@ -18,7 +18,8 @@ class ArticleList extends Component {
   }
 
   static propTypes = {
-    username: PropTypes.string
+    username: PropTypes.string,
+    scrollToTop: PropTypes.func.isRequired
   }
 
   render() {
@@ -52,6 +53,7 @@ class ArticleList extends Component {
       this.fetchArticles(hasPageChanged, hasSortByChanged || hasOrderChanged);
       if (hasTopicChanged) {
         this.setState({ p: 1})
+        this.props.scrollToTop();
       }
     }
   }

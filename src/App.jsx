@@ -26,9 +26,9 @@ class App extends Component {
         </header>
         <div className="container" ref={this.containerRef}>
           <Router className="nc-news-body" role="main" >
-            <ArticleList path="/" username={username} />
+            <ArticleList path="/" username={username} scrollToTop={this.scrollToTop} />
             <Error path="/error" />
-            <ArticleList path="/:topic" username={username} />
+            <ArticleList path="/:topic" username={username} scrollToTop={this.scrollToTop} />
             <ArticlePage path="/:topic/:article_id" username={username} />
             <Error default />
           </Router>
@@ -39,7 +39,6 @@ class App extends Component {
   }
 
   scrollToTop = () => {
-    console.log("ArticleList component has updated.");
     this.containerRef.current.scrollTo(0, 0);
   }
 
