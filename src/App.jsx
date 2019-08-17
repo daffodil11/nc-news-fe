@@ -30,10 +30,10 @@ class App extends Component {
         </header>
         <div className="container" ref={this.containerRef}>
           <Router className="nc-news-body" role="main" >
-            <ArticleList path="/" username={username} scrollToTop={this.scrollToTop} />
+            <ArticleList path="/" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} />
             <Error path="/error" />
-            <ArticleList path="/:topic" username={username} scrollToTop={this.scrollToTop} />
-            <ArticlePage path="/:topic/:article_id" username={username} />
+            <ArticleList path="/:topic" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} />
+            <ArticlePage path="/:topic/:article_id" username={username} updateUserVotes={(id, change) => this.updateUserVotes("comment", id, change)} />
             <Error default />
           </Router>
           <Footer />
