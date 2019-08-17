@@ -13,11 +13,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.containerRef = React.createRef();
-    this.state = { user: {} };
+    this.state = {
+      username: "guest",
+      articleVotes: {},
+      commentVotes: {}
+    };
   }
 
   render() {
-    const { user: { username } } = this.state;
+    const { username } = this.state;
     return (
       <div className="App">
         <header>
@@ -43,24 +47,25 @@ class App extends Component {
     const userStr = sessionStorage.getItem('nc-news-user');
     if (!userStr || JSON.parse(userStr).username === 'guest') {
       api.getRandomUser().then(user => {
-        this.setState({ user: {...user, votes: {} } });
+        const { username } = user;
+        this.setState({ username, articleVotes: {}, commentVotes: {} });
       })
       .catch(err => this.setState({
-        user: {
-          username: 'guest',
-          name: 'guest',
-          avatar_url: '',
-          votes: {}
-        }
+        username: 'guest',
+        articleVotes: {},
+        commentVotes: {}
       }));
     } else {
-      const user = JSON.parse(userStr);
-      this.setState({ user });
+      const { username, articleVotes, commentVotes } = JSON.parse(userStr);
+      this.setState({ username, articleVotes, commentVotes });
     }
   }
 
   componentWillUnmount() {
     this.storeUser();
+  }
+
+  updateUserVotes = (type, id, change) => {
   }
 
   scrollToTop = () => {
@@ -69,7 +74,7 @@ class App extends Component {
 
   storeUser = () => {
     console.log("Storing user data!");
-    sessionStorage.setItem('nc-news-user', JSON.stringify(this.state.user));
+    sessionStorage.setItem('nc-news-user', JSON.stringify(this.state));
   }
 
 }
