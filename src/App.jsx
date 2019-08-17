@@ -38,22 +38,19 @@ class App extends Component {
     );
   }
 
-  scrollToTop = () => {
-    this.containerRef.current.scrollTo(0, 0);
-  }
-
   componentDidMount() {
+    window.addEventListener('beforeunload', this.storeUser);
     const userStr = sessionStorage.getItem('nc-news-user');
     if (!userStr || JSON.parse(userStr).username === 'guest') {
       api.getRandomUser().then(user => {
-        this.setState({ user });
-        sessionStorage.setItem('nc-news-user', JSON.stringify(user));
+        this.setState({ user: {...user, votes: {} } });
       })
       .catch(err => this.setState({
         user: {
           username: 'guest',
           name: 'guest',
-          avatar_url: ''
+          avatar_url: '',
+          votes: {}
         }
       }));
     } else {
@@ -61,6 +58,20 @@ class App extends Component {
       this.setState({ user });
     }
   }
+
+  componentWillUnmount() {
+    this.storeUser();
+  }
+
+  scrollToTop = () => {
+    this.containerRef.current.scrollTo(0, 0);
+  }
+
+  storeUser = () => {
+    console.log("Storing user data!");
+    sessionStorage.setItem('nc-news-user', JSON.stringify(this.state.user));
+  }
+
 }
 
 export default App;
