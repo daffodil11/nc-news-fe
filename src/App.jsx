@@ -66,9 +66,11 @@ class App extends Component {
   }
 
   updateUserVotes = (type, id, change) => {
-    console.log(type);
-    console.log(id);
-    console.log(change);
+    if (type === "article") {
+      console.log(`Article ${id}: ${change}`);
+    } else if (type === "comment") {
+      console.log(`Comment ${id}: ${change}`);
+    }
   }
 
   scrollToTop = () => {

@@ -9,7 +9,9 @@ function Vote({ section, id, votes, votingDisabled, updateUserVotes }) {
   const handleVoteChange = change => {
     const currVoteChange = voteChange;
     setVoteChange(currVoteChange + change);
-    api.sendVote(section, id, change).catch(err => setVoteChange(currVoteChange));
+    api.sendVote(section, id, change)
+      .then(res => updateUserVotes(id, change))
+      .catch(err => setVoteChange(currVoteChange));
   };
 
   return (
