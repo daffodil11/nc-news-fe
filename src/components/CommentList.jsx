@@ -9,7 +9,9 @@ class CommentList extends Component {
 
   static propTypes = {
     article_id: PropTypes.number.isRequired,
-    username: PropTypes.string
+    username: PropTypes.string,
+    updateUserVotes: PropTypes.func.isRequired,
+    userCommentVotes: PropTypes.objectOf(PropTypes.number).isRequired
   }
 
   state = {
@@ -20,6 +22,7 @@ class CommentList extends Component {
 
   render() {
     const { error, isLoaded, comments } = this.state;
+    const { updateUserVotes, userCommentVotes } = this.props;
     if (error) {
       return <div className="comments-list" data-cy="comments-error">Error displaying comments: {error.msg || error.message}</div>;
     } else if (isLoaded) {
@@ -28,7 +31,7 @@ class CommentList extends Component {
           <h3>Comments</h3>
           <CommentForm submitForm={this.submitForm} swapInComment={this.swapInComment} reverseOptimisticRender={this.reverseOptimisticRender} />
           <div className="comments-container">
-              {comments.map(comment => <Comment key={comment.comment_id || 'new-comment'} comment={comment} votingDisabled={comment.author === this.props.username} handleDelete={() => this.handleDelete(comment.comment_id)}/>)}
+              {comments.map(comment => <Comment key={comment.comment_id || 'new-comment'} comment={comment} votingDisabled={comment.author === this.props.username} handleDelete={() => this.handleDelete(comment.comment_id)} updateUserVotes={updateUserVotes} initialVoteState={userCommentVotes[comment.comment_id] || 0}/>)}
           </div>
         </div>
       );
@@ -38,14 +41,15 @@ class CommentList extends Component {
   }
 
   submitForm = body => {
+    const { username } = this.props;
     const newComment = {
-      author: 'weegembump',
+      author: username,
       votes: 0,
       age: 'a few moments',
       body
     };
     this.setState(state => ({ comments: [newComment, ...state.comments] }));
-    return api.postComment(this.props.article_id, 'weegembump', body);
+    return api.postComment(this.props.article_id, username, body);
   }
 
   swapInComment = comment => {

@@ -6,3 +6,8 @@
   font-weight: bold;
   text-align: center;
 }
+
+button.vote-button.used {
+  background: rgba(186, 31, 49, 1);
+  border: 1px solid black;
+}
