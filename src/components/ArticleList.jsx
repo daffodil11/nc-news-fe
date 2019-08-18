@@ -44,6 +44,7 @@ class ArticleList extends Component {
   }
 
   componentDidMount() {
+    this.props.updateNavBar(this.props.topic);
     this.fetchArticles();
   }
 
