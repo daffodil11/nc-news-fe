@@ -41,14 +41,15 @@ class CommentList extends Component {
   }
 
   submitForm = body => {
+    const { username } = this.props;
     const newComment = {
-      author: 'weegembump',
+      author: username,
       votes: 0,
       age: 'a few moments',
       body
     };
     this.setState(state => ({ comments: [newComment, ...state.comments] }));
-    return api.postComment(this.props.article_id, 'weegembump', body);
+    return api.postComment(this.props.article_id, username, body);
   }
 
   swapInComment = comment => {
