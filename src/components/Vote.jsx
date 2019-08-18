@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import './Vote.css';
 import * as api from '../utils/api';
 
-function Vote({ section, id, votes, votingDisabled, updateUserVotes }) {
-  const [voteChange, setVoteChange] = useState(0);
+function Vote({ section, id, votes, votingDisabled, updateUserVotes, initialVoteState }) {
+  const [voteChange, setVoteChange] = useState(initialVoteState);
 
   const handleVoteChange = change => {
     const currVoteChange = voteChange;
@@ -28,7 +28,8 @@ Vote.propTypes = {
   id: PropTypes.number.isRequired,
   votes: PropTypes.number.isRequired,
   votingDisabled: PropTypes.bool,
-  updateUserVotes: PropTypes.func.isRequired
+  updateUserVotes: PropTypes.func.isRequired,
+  initialVoteState: PropTypes.number.isRequired
 };
 
 export default Vote;

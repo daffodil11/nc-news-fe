@@ -15,11 +15,12 @@ class ArticlePage extends Component {
 
   static propTypes = {
     username: PropTypes.string,
-    updateUserVotes: PropTypes.func.isRequired
+    updateUserVotes: PropTypes.func.isRequired,
+    userCommentVotes: PropTypes.objectOf(PropTypes.number).isRequired
   }
 
   render() {
-    const { username, updateUserVotes } = this.props;
+    const { username, updateUserVotes, userCommentVotes } = this.props;
     const { error, isLoaded, article: { title, author, body, article_id } } = this.state;
     if (error) {
       return <div data-cy="error">Error: {error.msg || error.message}</div>;
@@ -29,7 +30,7 @@ class ArticlePage extends Component {
           <h2 data-cy="title">{title}</h2>        
           <p data-cy="author">{author}</p>
           <p data-cy="body">{body}</p>
-          <CommentList article_id={article_id} username={username} updateUserVotes={updateUserVotes} />
+          <CommentList article_id={article_id} username={username} updateUserVotes={updateUserVotes} userCommentVotes={userCommentVotes} />
         </article>
       );
     } else {

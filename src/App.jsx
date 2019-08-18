@@ -21,7 +21,7 @@ class App extends Component {
   }
 
   render() {
-    const { username } = this.state;
+    const { username, articleVotes, commentVotes } = this.state;
     return (
       <div className="App">
         <header>
@@ -30,10 +30,10 @@ class App extends Component {
         </header>
         <div className="container" ref={this.containerRef}>
           <Router className="nc-news-body" role="main" >
-            <ArticleList path="/" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} />
+            <ArticleList path="/" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} userArticleVotes={articleVotes} />
             <Error path="/error" />
-            <ArticleList path="/:topic" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} />
-            <ArticlePage path="/:topic/:article_id" username={username} updateUserVotes={(id, change) => this.updateUserVotes("comment", id, change)} />
+            <ArticleList path="/:topic" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} userArticleVotes={articleVotes} />
+            <ArticlePage path="/:topic/:article_id" username={username} updateUserVotes={(id, change) => this.updateUserVotes("comment", id, change)} userCommentVotes={commentVotes} />
             <Error default />
           </Router>
           <Footer />

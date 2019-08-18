@@ -20,7 +20,8 @@ class ArticleList extends Component {
   static propTypes = {
     username: PropTypes.string,
     scrollToTop: PropTypes.func.isRequired,
-    updateUserVotes: PropTypes.func.isRequired
+    updateUserVotes: PropTypes.func.isRequired,
+    userArticleVotes: PropTypes.objectOf(PropTypes.number).isRequired
   }
 
   render() {

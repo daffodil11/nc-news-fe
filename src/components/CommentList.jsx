@@ -10,7 +10,8 @@ class CommentList extends Component {
   static propTypes = {
     article_id: PropTypes.number.isRequired,
     username: PropTypes.string,
-    updateUserVotes: PropTypes.func.isRequired
+    updateUserVotes: PropTypes.func.isRequired,
+    userCommentVotes: PropTypes.objectOf(PropTypes.number).isRequired
   }
 
   state = {
@@ -21,7 +22,7 @@ class CommentList extends Component {
 
   render() {
     const { error, isLoaded, comments } = this.state;
-    const { updateUserVotes } = this.props;
+    const { updateUserVotes, userCommentVotes } = this.props;
     if (error) {
       return <div className="comments-list" data-cy="comments-error">Error displaying comments: {error.msg || error.message}</div>;
     } else if (isLoaded) {
@@ -30,7 +31,7 @@ class CommentList extends Component {
           <h3>Comments</h3>
           <CommentForm submitForm={this.submitForm} swapInComment={this.swapInComment} reverseOptimisticRender={this.reverseOptimisticRender} />
           <div className="comments-container">
-              {comments.map(comment => <Comment key={comment.comment_id || 'new-comment'} comment={comment} votingDisabled={comment.author === this.props.username} handleDelete={() => this.handleDelete(comment.comment_id)} updateUserVotes={updateUserVotes}/>)}
+              {comments.map(comment => <Comment key={comment.comment_id || 'new-comment'} comment={comment} votingDisabled={comment.author === this.props.username} handleDelete={() => this.handleDelete(comment.comment_id)} updateUserVotes={updateUserVotes} initialVoteState={userCommentVotes[comment.comment_id] || 0}/>)}
           </div>
         </div>
       );
