@@ -21,7 +21,8 @@ class ArticleList extends Component {
     username: PropTypes.string,
     scrollToTop: PropTypes.func.isRequired,
     updateUserVotes: PropTypes.func.isRequired,
-    userArticleVotes: PropTypes.objectOf(PropTypes.number).isRequired
+    userArticleVotes: PropTypes.objectOf(PropTypes.number).isRequired,
+    updateNavBar: PropTypes.func.isRequired
   }
 
   render() {
@@ -56,6 +57,7 @@ class ArticleList extends Component {
       if (hasTopicChanged) {
         this.setState({ p: 1})
         this.props.scrollToTop();
+        this.props.updateNavBar(this.props.topic);
       }
     }
   }

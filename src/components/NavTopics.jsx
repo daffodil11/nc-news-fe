@@ -12,20 +12,20 @@ class NavTopics extends Component {
   }
 
   static propTypes = {
-    username: PropTypes.string
+    username: PropTypes.string,
+    currentTopic: PropTypes.string
   }
 
   render() {
     const { topics, open } = this.state;
-    const { URL } = document;
-    const { username } = this.props;
+    const { username, currentTopic } = this.props;
     return (
       <div className="nav-container">
         <nav className={open ? "nav-open" : "nav-closed"}>
             {(document.body.clientWidth < 600) && <a id="nav-toggle" className="nav-button" onClick={this.toggleMenu} ><NavToggleButton open={open} /></a>}
           <Link className="nav-button" to="/" onClick={this.toggleMenu} >all</Link>
           {topics.map(({ slug, description }) => (
-            <Link to={'/' + slug} title={description} className={`nav-button${URL.includes(slug) ? " current" : ""}`} data-cy="topic-button" key={slug} onClick={this.toggleMenu} >{slug}</Link>))}
+            <Link to={'/' + slug} title={description} className={`nav-button${slug===currentTopic ? " current" : ""}`} data-cy="topic-button" key={slug} onClick={this.toggleMenu} >{slug}</Link>))}
         </nav>
         <div className="user-welcome" data-cy="user-welcome" >
           Welcome,&nbsp;<span className="username">{username || 'guest'}</span>!

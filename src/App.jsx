@@ -16,23 +16,24 @@ class App extends Component {
     this.state = {
       username: "guest",
       articleVotes: {},
-      commentVotes: {}
+      commentVotes: {},
+      currentTopic: ""
     };
   }
 
   render() {
-    const { username, articleVotes, commentVotes } = this.state;
+    const { username, articleVotes, commentVotes, currentTopic } = this.state;
     return (
       <div className="App">
         <header>
           <h1>Northcoders News</h1>
-          <NavTopics username={username} />
+          <NavTopics username={username} currentTopic={currentTopic} />
         </header>
         <div className="container" ref={this.containerRef}>
           <Router className="nc-news-body" role="main" >
-            <ArticleList path="/" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} userArticleVotes={articleVotes} />
+            <ArticleList path="/" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} userArticleVotes={articleVotes} updateNavBar={this.updateNavBar} />
             <Error path="/error" />
-            <ArticleList path="/:topic" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} userArticleVotes={articleVotes} />
+            <ArticleList path="/:topic" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} userArticleVotes={articleVotes} updateNavBar={this.updateNavBar} />
             <ArticlePage path="/:topic/:article_id" username={username} updateUserVotes={(id, change) => this.updateUserVotes("comment", id, change)} userCommentVotes={commentVotes} />
             <Error default />
           </Router>
@@ -84,6 +85,9 @@ class App extends Component {
     sessionStorage.setItem('nc-news-user', JSON.stringify(this.state));
   }
 
+  updateNavBar = currentTopic => {
+    this.setState({ currentTopic });
+  }
 }
 
 export default App;
