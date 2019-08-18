@@ -68,10 +68,8 @@ class App extends Component {
 
   updateUserVotes = (type, id, change) => {
     if (type === "article") {
-      console.log(`Article ${id}: ${change}`);
       this.setState(({ articleVotes }) => ({ articleVotes: { ...articleVotes, [id]: (articleVotes[id] || 0) + change } }));
     } else if (type === "comment") {
-      console.log(`Comment ${id}: ${change}`);
       this.setState(({ commentVotes }) => ({ commentVotes: { ...commentVotes, [id]: (commentVotes[id] || 0) + change } }));
     }
   }
@@ -81,7 +79,6 @@ class App extends Component {
   }
 
   storeUser = () => {
-    console.log("Storing user data!");
     sessionStorage.setItem('nc-news-user', JSON.stringify(this.state));
   }
 
