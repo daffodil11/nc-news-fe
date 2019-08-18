@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Comment.css';
 import Vote from './Vote';
 
-function Comment({ comment: { comment_id, author, votes, age, body }, votingDisabled, handleDelete }) {
+function Comment({ comment: { comment_id, author, votes, age, body }, votingDisabled, handleDelete, updateUserVotes, initialVoteState }) {
 
   return (
     <div id={comment_id || "new-comment"} className="comment" data-cy="comment">
@@ -18,7 +18,7 @@ function Comment({ comment: { comment_id, author, votes, age, body }, votingDisa
           {votingDisabled ? (
             <button data-cy="del-button" onClick={handleDelete} >Delete</button>
           ) : (
-            <Vote section="comments" id={comment_id} votes={votes} votingDisabled={votingDisabled} />
+            <Vote section="comments" id={comment_id} votes={votes} votingDisabled={votingDisabled} updateUserVotes={updateUserVotes} initialVoteState={initialVoteState} />
           )}
       </div>
     </div>
@@ -27,14 +27,16 @@ function Comment({ comment: { comment_id, author, votes, age, body }, votingDisa
 
 Comment.propTypes = {
   comment: PropTypes.shape({
-    comment_id: PropTypes.number,
+    comment_id: PropTypes.number.isRequired,
     author: PropTypes.string.isRequired,
     votes: PropTypes.number.isRequired,
     age: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired
   }),
   votingDisabled: PropTypes.bool,
-  handleDelete: PropTypes.func
+  handleDelete: PropTypes.func.isRequired,
+  updateUserVotes: PropTypes.func.isRequired,
+  initialVoteState: PropTypes.number.isRequired
 };
 
 export default Comment;

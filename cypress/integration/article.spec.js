@@ -20,6 +20,7 @@ describe('/', () => {
       response: {}
     }).as('deleteComment');
     cy.route('GET', '/api/users/randomuser', 'fx:user.json').as('getRandomUser');
+    cy.route('PATCH', '/api/comments/*', 'fx:vote.json').as('successfulUpvote');
     cy.visit(BASE_URL + 'mitch/1', {onBeforeLoad: () => sessionStorage.clear() });
   });
   it('should display a loading message until the article has been retrieved', () => {
@@ -88,5 +89,10 @@ describe('/', () => {
     cy.get('[data-cy=comment-body]').should('have.length', 2);
     cy.wait('@deleteCommentFail');
     cy.get('[data-cy=comment-body]').should('have.length', 3);
+  });
+  it('should preserve user votes on page refresh', () => {
+    cy.get('[data-cy=upvote]').first().click();
+    cy.get('[data-cy=upvote]').first().should('be.disabled');
+    cy.reload().get('[data-cy=upvote]').first().should('be.disabled');
   });
 });

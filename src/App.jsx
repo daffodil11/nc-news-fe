@@ -13,23 +13,28 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.containerRef = React.createRef();
-    this.state = { user: {} };
+    this.state = {
+      username: "guest",
+      articleVotes: {},
+      commentVotes: {},
+      currentTopic: ""
+    };
   }
 
   render() {
-    const { user: { username } } = this.state;
+    const { username, articleVotes, commentVotes, currentTopic } = this.state;
     return (
       <div className="App">
         <header>
           <h1>Northcoders News</h1>
-          <NavTopics username={username} />
+          <NavTopics username={username} currentTopic={currentTopic} />
         </header>
         <div className="container" ref={this.containerRef}>
           <Router className="nc-news-body" role="main" >
-            <ArticleList path="/" username={username} scrollToTop={this.scrollToTop} />
+            <ArticleList path="/" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} userArticleVotes={articleVotes} updateNavBar={this.updateNavBar} />
             <Error path="/error" />
-            <ArticleList path="/:topic" username={username} scrollToTop={this.scrollToTop} />
-            <ArticlePage path="/:topic/:article_id" username={username} />
+            <ArticleList path="/:topic" username={username} scrollToTop={this.scrollToTop} updateUserVotes={(id, change) => this.updateUserVotes("article", id, change)} userArticleVotes={articleVotes} updateNavBar={this.updateNavBar} />
+            <ArticlePage path="/:topic/:article_id" username={username} updateUserVotes={(id, change) => this.updateUserVotes("comment", id, change)} userCommentVotes={commentVotes} />
             <Error default />
           </Router>
           <Footer />
@@ -38,28 +43,50 @@ class App extends Component {
     );
   }
 
+  componentDidMount() {
+    window.addEventListener('beforeunload', this.storeUser);
+    const userStr = sessionStorage.getItem('nc-news-user');
+    if (!userStr || JSON.parse(userStr).username === 'guest') {
+      api.getRandomUser().then(user => {
+        const { username } = user;
+        this.setState({ username, articleVotes: {}, commentVotes: {} });
+      })
+      .catch(err => this.setState({
+        username: 'guest',
+        articleVotes: {},
+        commentVotes: {}
+      }));
+    } else {
+      const { username, articleVotes, commentVotes } = JSON.parse(userStr);
+      this.setState({ username, articleVotes, commentVotes });
+    }
+  }
+
+  componentWillUnmount() {
+    this.storeUser();
+  }
+
+  updateUserVotes = (type, id, change) => {
+    if (type === "article") {
+      console.log(`Article ${id}: ${change}`);
+      this.setState(({ articleVotes }) => ({ articleVotes: { ...articleVotes, [id]: (articleVotes[id] || 0) + change } }));
+    } else if (type === "comment") {
+      console.log(`Comment ${id}: ${change}`);
+      this.setState(({ commentVotes }) => ({ commentVotes: { ...commentVotes, [id]: (commentVotes[id] || 0) + change } }));
+    }
+  }
+
   scrollToTop = () => {
     this.containerRef.current.scrollTo(0, 0);
   }
 
-  componentDidMount() {
-    const userStr = sessionStorage.getItem('nc-news-user');
-    if (!userStr || JSON.parse(userStr).username === 'guest') {
-      api.getRandomUser().then(user => {
-        this.setState({ user });
-        sessionStorage.setItem('nc-news-user', JSON.stringify(user));
-      })
-      .catch(err => this.setState({
-        user: {
-          username: 'guest',
-          name: 'guest',
-          avatar_url: ''
-        }
-      }));
-    } else {
-      const user = JSON.parse(userStr);
-      this.setState({ user });
-    }
+  storeUser = () => {
+    console.log("Storing user data!");
+    sessionStorage.setItem('nc-news-user', JSON.stringify(this.state));
+  }
+
+  updateNavBar = currentTopic => {
+    this.setState({ currentTopic });
   }
 }
 
