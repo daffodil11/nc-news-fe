@@ -26,13 +26,13 @@ class ArticleList extends Component {
 
   render() {
     const { isLoaded, error, articles, sort_by, order } = this.state;
-    const { username, topic, updateUserVotes } = this.props;
+    const { username, topic, updateUserVotes, userArticleVotes } = this.props;
     if (error) return <div data-cy="error">Error: {error.msg || error.message}</div>;
     else if (isLoaded) return (
       <div>
         <SortControls handleSelectChange={this.handleSelectChange} sort_by={sort_by} order={order} />
         <div>
-            {articles.map(article => <ArticleCard key={`${topic ? topic : 'all'}${article.article_id}`} article={article} votingDisabled={article.author === username} updateUserVotes={updateUserVotes} />)}
+            {articles.map(article => <ArticleCard key={`${topic ? topic : 'all'}${article.article_id}`} article={article} votingDisabled={article.author === username} updateUserVotes={updateUserVotes} initialVoteState={userArticleVotes[article.article_id] || 0} />)}
         </div>
         <div className="article-list-footer">
           <button className="load-more" data-cy="load-more" onClick={this.loadNextPage} >Load more articles</button>
