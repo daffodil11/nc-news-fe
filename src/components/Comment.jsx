@@ -27,7 +27,7 @@ function Comment({ comment: { comment_id, author, votes, age, body }, votingDisa
 
 Comment.propTypes = {
   comment: PropTypes.shape({
-    comment_id: PropTypes.number,
+    comment_id: PropTypes.number.isRequired,
     author: PropTypes.string.isRequired,
     votes: PropTypes.number.isRequired,
     age: PropTypes.string.isRequired,
